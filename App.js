@@ -84,13 +84,13 @@ app.use("/listings",listingRouter);
 app.use("/listings/:id/reviews",reviewRouter);
 app.use("/",userRouter);
 
+app.all("/{*splat}",(req,res,next)=>{
+  next(new ExpressError(404,"Page Not Found"));
+});
+
 app.use((err,req,res,next)=>{
   let{ statusCode=500,message="Something want wrong"}=err;
   res.status(statusCode).render("error.ejs",{message});
-});
-
-app.all("/{*splat}",(req,res,next)=>{
-  next(new ExpressError(404,"Page Not Found"));
 });
 
 app.listen(8080,()=>{
